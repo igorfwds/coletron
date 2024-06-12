@@ -34,7 +34,7 @@ O Coletron consiste em uma máquina que possibilita que pessoas interessadas em 
     - Abra o arquivo `coletronarduino2.ino` na Arduino IDE.
     - Monte o circuito conforme o esquema abaixo:
     
-    ![Esquemático do Arduino](image/esquematico-arduino.jpg)
+    ![Esquemático do Arduino](images/esquematico-arduino.jpg)
     
     - Compile e faça o upload do código para o Arduino.
 
@@ -50,7 +50,7 @@ O Coletron consiste em uma máquina que possibilita que pessoas interessadas em 
 
 ### Protótipo
 
-![Protótipo MVP](prototipo-mvp.jpg)
+![Protótipo MVP](images/prototipo-mvp.jpg)
 
 ## Contribuição
 
