@@ -26,7 +26,7 @@ O Coletron consiste em uma máquina que possibilita que pessoas interessadas em 
 
 1. **Clone o Repositório**:
     ```sh
-    git clone <https://github.com/igorfwds/coletron.git>
+    git clone https://github.com/igorfwds/coletron.git
     ```
 
 2. **Configuração do Arduino**:
