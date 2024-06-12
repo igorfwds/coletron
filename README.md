@@ -1,6 +1,6 @@
 # Coletron
 
-![Mascote Tron](image/mascote-tron.jpg)
+![Mascote Tron](images/mascote-tron.jpg)
 
 ## Descrição do Projeto
 
