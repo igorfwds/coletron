@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class TelaPrincipal extends JFrame {
     private UsuarioService usuarioService = new UsuarioService();
     private CardLayout cardLayout = new CardLayout();
@@ -63,7 +66,7 @@ public class TelaPrincipal extends JFrame {
         // Criando e estilizando os botões
         JButton btnCadastrar = createRoundedButton("Cadastrar");
         JButton btnLogin = createRoundedButton("Já tenho login");
-        JButton btnDescartar = createRoundedButton("Somente Descartar");
+        JLabel lblDescartar = createLinkLabel("Somente Descartar");
 
         // Adicionando ações aos botões
         btnCadastrar.addActionListener(new ActionListener() {
@@ -78,9 +81,10 @@ public class TelaPrincipal extends JFrame {
             }
         });
 
-        btnDescartar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Descartar");
+        lblDescartar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cardLayout.show(mainPanel, "Selecao");
             }
         });
 
@@ -90,11 +94,11 @@ public class TelaPrincipal extends JFrame {
         int xPosition = getWidth() - buttonWidth - 100;
         btnCadastrar.setBounds(xPosition, 220, buttonWidth, buttonHeight);
         btnLogin.setBounds(xPosition, 280, buttonWidth, buttonHeight);
-        btnDescartar.setBounds(xPosition, 340, buttonWidth, buttonHeight);
+        lblDescartar.setBounds(xPosition + 40, 340, buttonWidth, buttonHeight);
 
         panelPrincipal.add(btnCadastrar);
         panelPrincipal.add(btnLogin);
-        panelPrincipal.add(btnDescartar);
+        panelPrincipal.add(lblDescartar);
 
         // Adicionando o painel principal ao CardLayout
         mainPanel.add(panelPrincipal, "Principal");
@@ -144,48 +148,29 @@ public class TelaPrincipal extends JFrame {
         });
         panel.add(btnVoltar);
 
-        JLabel lblNome = new JLabel("Nome:");
-        lblNome.setBounds(240, 150, 290, 30);
-        panel.add(lblNome);
 
         JTextField txtNome = new JTextField(20);
-        txtNome.setBounds(240, 180, 290, 30);
+        txtNome.setBounds(50, 230, 290, 30);
         panel.add(txtNome);
 
-        JLabel lblCpf = new JLabel("CPF:");
-        lblCpf.setBounds(240, 210, 290, 30);
-        panel.add(lblCpf);
-
         JTextField txtCpf = new JTextField(20);
-        txtCpf.setBounds(240, 240, 290, 30);
+        txtCpf.setBounds(50, 300, 290, 30);
         panel.add(txtCpf);
 
-        JLabel lblEmail = new JLabel("Email:");
-        lblEmail.setBounds(240, 270, 290, 30);
-        panel.add(lblEmail);
-
         JTextField txtEmail = new JTextField(20);
-        txtEmail.setBounds(240, 300, 290, 30);
+        txtEmail.setBounds(50, 370, 290, 30);
         panel.add(txtEmail);
 
-        JLabel lblSenha = new JLabel("Senha:");
-        lblSenha.setBounds(240, 330, 290, 30);
-        panel.add(lblSenha);
-
         JPasswordField txtSenha = new JPasswordField(20);
-        txtSenha.setBounds(240, 360, 290, 30);
+        txtSenha.setBounds(50, 440, 290, 30);
         panel.add(txtSenha);
 
-        JLabel lblConfirmaSenha = new JLabel("Confirmar Senha:");
-        lblConfirmaSenha.setBounds(240, 390, 290, 30);
-        panel.add(lblConfirmaSenha);
-
         JPasswordField txtConfirmaSenha = new JPasswordField(20);
-        txtConfirmaSenha.setBounds(240, 420, 290, 30);
+        txtConfirmaSenha.setBounds(50, 510, 290, 30);
         panel.add(txtConfirmaSenha);
 
-        JButton btnCadastrar = createRoundedButton("OK");
-        btnCadastrar.setBounds(600, 300, 50, 40);
+        JButton btnCadastrar = createRoundedButton("Cadastrar");
+        btnCadastrar.setBounds(550, 440, 200, 50);
         btnCadastrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String nome = txtNome.getText();
@@ -246,17 +231,13 @@ public class TelaPrincipal extends JFrame {
         });
         panel.add(btnVoltar);
 
-        JLabel lblCpf = new JLabel("Digite seu CPF:");
-        lblCpf.setBounds(280, 260, 200, 30);
-        panel.add(lblCpf);
-
         JTextField txtCpf = new JTextField(20);
-        txtCpf.setBounds(280, 300, 260, 30);
+        txtCpf.setBounds(150, 250, 500, 30);
         txtCpf.setToolTipText("CPF");
         panel.add(txtCpf);
 
-        JButton btnLogin = createRoundedButton("OK");
-        btnLogin.setBounds(600, 295, 50, 40);
+        JButton btnLogin = createRoundedButton("Confirmar");
+        btnLogin.setBounds(300, 350, 200, 50);
         btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String cpf = txtCpf.getText();
@@ -369,7 +350,7 @@ public class TelaPrincipal extends JFrame {
 
         JButton btnPequeno = createRoundedButton("Pequeno");
         btnPequeno.setBounds(100, 250, 200, 50);
-        btnPequeno.setBackground(Color.decode("#91a7e0")); // Cor de fundo
+        btnPequeno.setBackground(Color.decode("#41ABC9")); // Cor de fundo
         btnPequeno.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 processarDescarte(new Residuo("Pequeno", 10));
@@ -380,7 +361,7 @@ public class TelaPrincipal extends JFrame {
 
         JButton btnMedio = createRoundedButton("Médio");
         btnMedio.setBounds(310, 250, 200, 50);
-        btnMedio.setBackground(Color.decode("#91a7e0")); // Cor de fundo
+        btnMedio.setBackground(Color.decode("#41ABC9")); // Cor de fundo
         btnMedio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 processarDescarte(new Residuo("Médio", 30));
@@ -391,7 +372,7 @@ public class TelaPrincipal extends JFrame {
 
         JButton btnGrande = createRoundedButton("Grande");
         btnGrande.setBounds(520, 250, 200, 50);
-        btnGrande.setBackground(Color.decode("#91a7e0")); // Cor de fundo
+        btnGrande.setBackground(Color.decode("#41ABC9")); // Cor de fundo
         btnGrande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 processarDescarte(new Residuo("Grande", 50));
@@ -410,15 +391,15 @@ public class TelaPrincipal extends JFrame {
                 super.paintComponent(g);
                 ImageIcon icon = null;
                 try {
-                    java.net.URL imgUrl = getClass().getResource("/images/tela-espera.png"); // Caminho a partir da raiz do classpath
+                    java.net.URL imgUrl = getClass().getResource("/images/tela-espera.jpg"); // Caminho a partir da raiz do classpath
                     if (imgUrl != null) {
                         icon = new ImageIcon(imgUrl);
                     } else {
-                        System.err.println("Não foi possível encontrar a imagem: /images/tela-espera.png");
+                        System.err.println("Não foi possível encontrar a imagem: /images/tela-espera.jpg");
                         // Opcional: Lançar exceção ou definir um ícone padrão.
                     }
                 } catch (Exception e) {
-                    System.err.println("Erro ao carregar a imagem: /images/tela-espera.png");
+                    System.err.println("Erro ao carregar a imagem: /images/tela-espera.jpg");
                     e.printStackTrace();
                     // Opcional: Tratar a exceção ou definir um ícone padrão.
                 }
@@ -431,8 +412,8 @@ public class TelaPrincipal extends JFrame {
         btnProximo.setBounds(310, 430, 200, 50);
         btnProximo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Pergunta"); // Substitua "Pergunta" pelo nome da tela que você deseja mostrar
                 mainPanel.add(createPontosRecebidosPanel(), "Pontos");
+                cardLayout.show(mainPanel, "Pontos");
             }
         });
         panel.add(btnProximo);
@@ -510,26 +491,20 @@ public class TelaPrincipal extends JFrame {
         panel.setLayout(null);
         
         int pontosGanhos = usuarioAtual.getPontos() - pontosIniciais;
-        
-        // Criando JLabel para pontosGanhos com fonte grande
-        JLabel lblPontosGrande = new JLabel("+" + String.valueOf(pontosGanhos));
-        lblPontosGrande.setFont(new Font("Montserrat", Font.BOLD, 90)); // Define a fonte Arial, negrito, tamanho 30
-        lblPontosGrande.setForeground(Color.decode("#FFFFFF"));
-        lblPontosGrande.setBounds(100, 155, 500, 100);
-        panel.add(lblPontosGrande);
+    
 
         // Criando JLabel para pontosGanhos com fonte pequena
-        JLabel lblPontosPequeno = new JLabel(String.valueOf(pontosGanhos));
-        lblPontosPequeno.setFont(new Font("Montserrat", Font.BOLD, 35)); // Define a fonte Arial, normal, tamanho 15
-        lblPontosPequeno.setForeground(Color.decode("#015B74"));
-        lblPontosPequeno.setBounds(655, 170, 200, 45);
+        JLabel lblPontosPequeno = new JLabel("+" + String.valueOf(pontosGanhos) + " PONTOS!");
+        lblPontosPequeno.setFont(new Font("Montserrat", Font.BOLD, 50)); // Define a fonte Arial, normal, tamanho 15
+        lblPontosPequeno.setForeground(Color.decode("#F2AD3C"));
+        lblPontosPequeno.setBounds(400, 110, 600, 45);
         panel.add(lblPontosPequeno);
 
-        JButton btnProximo = createRoundedButton("Próximo");
-        btnProximo.setBounds(450, 360, 180, 50);
+        JButton btnProximo = createRoundedButton("Finalizar");
+        btnProximo.setBounds(300, 450, 180, 50);
         btnProximo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Acesso"); // Substitua "Selecao" pelo nome da tela que você deseja mostrar
+                cardLayout.show(mainPanel, "Principal"); // Substitua "Selecao" pelo nome da tela que você deseja mostrar
             }
         });
         panel.add(btnProximo);
@@ -584,19 +559,66 @@ public class TelaPrincipal extends JFrame {
     
     private JButton createRoundedButton(String text) {
         RoundedButton button = new RoundedButton(text, 20);
-        button.setBackground(new Color(95, 193, 152)); // Cor de fundo
-        button.setForeground(new Color(3, 59, 75)); // Cor do texto
-        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBackground(Color.decode("#41ABC9")); // Cor do botão
+        button.setForeground(Color.decode("#FFFFFF")); // Cor da fonte
+        button.setBorder(BorderFactory.createLineBorder(Color.decode("#0189AF"))); // Cor da borda
+    
+        try {
+            Font montserrat = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Montserrat-SemiBold.ttf"))
+                                  .deriveFont(Font.BOLD, 16f);
+            button.setFont(montserrat);
+        } catch (Exception e) {
+            button.setFont(new Font("Arial", Font.BOLD, 16)); // fallback
+            e.printStackTrace();
+        }
+    
         return button;
-    }
+    }    
 
     private JButton createImageButton(String imagePath) {
         JButton button = new JButton(new ImageIcon(imagePath));
-        button.setContentAreaFilled(false); // Torna o botão transparente
-        button.setBorderPainted(false); // Remove a borda
+        button.setContentAreaFilled(false);
+        button.setBorder(BorderFactory.createLineBorder(Color.decode("#0189AF"))); // cor da borda, se desejar
+        button.setForeground(Color.decode("#FFFFFF")); // cor da fonte, se tiver texto
         return button;
     }
 
+    private JLabel createLinkLabel(String text) {
+        JLabel label = new JLabel("<html><u>" + text + "</u></html>");
+        label.setForeground(Color.decode("#033B4B")); // Cor da fonte
+        label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    
+        try {
+            Font montserrat = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Montserrat-SemiBold.ttf"))
+                                  .deriveFont(Font.PLAIN, 14f);
+            label.setFont(montserrat);
+        } catch (Exception e) {
+            label.setFont(new Font("Arial", Font.PLAIN, 14)); // fallback
+            e.printStackTrace();
+        }
+    
+        // Comportamento de clique
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Ação ao clicar no texto
+                System.out.println("Texto clicado: Somente Descartar");
+            }
+    
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                label.setForeground(Color.decode("#0189AF")); // opcional: muda cor ao passar o mouse
+            }
+    
+            @Override
+            public void mouseExited(MouseEvent e) {
+                label.setForeground(Color.decode("#033B4B"));
+            }
+        });
+    
+        return label;
+    }    
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
