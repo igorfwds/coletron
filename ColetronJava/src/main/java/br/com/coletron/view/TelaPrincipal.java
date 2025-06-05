@@ -1,14 +1,16 @@
 package br.com.coletron.view;
 
 import br.com.coletron.service.UsuarioService;
+import br.com.coletron.service.ResiduoService;
+import br.com.coletron.service.DescarteService;
 import br.com.coletron.model.Usuario;
 import br.com.coletron.model.Residuo;
+import br.com.coletron.model.Descarte;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +19,8 @@ import java.sql.SQLException;
 
 public class TelaPrincipal extends JFrame {
     private UsuarioService usuarioService = new UsuarioService();
+    private ResiduoService residuoService = new ResiduoService();
+    private DescarteService descarteService = new DescarteService();
     private CardLayout cardLayout = new CardLayout();
     private JPanel mainPanel = new JPanel(cardLayout);
     private Usuario usuarioAtual;
@@ -365,16 +369,22 @@ public class TelaPrincipal extends JFrame {
         btnPequeno.setBackground(Color.decode("#41ABC9")); // Cor de fundo
         btnPequeno.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Residuo residuoDescartado = new Residuo("Pequeno", 10); // O objeto Residuo ainda é criado
+                try {
+                    Residuo residuoDescartado = residuoService.obterResiduoPorTipo("Pequeno");
 
-                if (usuarioAtual != null) {
-                    processarDescarte(residuoDescartado);
-                    cardLayout.show(mainPanel, "Espera");
-                } else {
-
-                    System.out.println("Simulando descarte físico para 'Somente Descartar'. Tipo: " + residuoDescartado.getTipo());
-
-                    cardLayout.show(mainPanel, "Espera");
+                    if (usuarioAtual != null) {
+                        processarDescarte(residuoDescartado); // Passa o Resíduo obtido do BD
+                        cardLayout.show(mainPanel, "Espera");
+                    } else {
+                        System.out.println("Simulando descarte físico para 'Somente Descartar'. Tipo: " + residuoDescartado.getTipo());
+                        cardLayout.show(mainPanel, "Espera");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(TelaPrincipal.this,
+                            "Erro ao obter dados do resíduo: " + ex.getMessage(),
+                            "Erro de Configuração",
+                            JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -385,13 +395,22 @@ public class TelaPrincipal extends JFrame {
         btnMedio.setBackground(Color.decode("#41ABC9")); // Cor de fundo
         btnMedio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Residuo residuoDescartado = new Residuo("Médio", 30);
-                if (usuarioAtual != null) {
-                    processarDescarte(residuoDescartado);
-                    cardLayout.show(mainPanel, "Espera");
-                } else {
-                    System.out.println("Simulando descarte físico para 'Somente Descartar'. Tipo: " + residuoDescartado.getTipo());
-                    cardLayout.show(mainPanel, "Espera");
+                try {
+                    Residuo residuoDescartado = residuoService.obterResiduoPorTipo("Medio");
+
+                    if (usuarioAtual != null) {
+                        processarDescarte(residuoDescartado); // Passa o Resíduo obtido do BD
+                        cardLayout.show(mainPanel, "Espera");
+                    } else {
+                        System.out.println("Simulando descarte físico para 'Somente Descartar'. Tipo: " + residuoDescartado.getTipo());
+                        cardLayout.show(mainPanel, "Espera");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(TelaPrincipal.this,
+                            "Erro ao obter dados do resíduo: " + ex.getMessage(),
+                            "Erro de Configuração",
+                            JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -402,13 +421,22 @@ public class TelaPrincipal extends JFrame {
         btnGrande.setBackground(Color.decode("#41ABC9")); // Cor de fundo
         btnGrande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Residuo residuoDescartado = new Residuo("Grande", 50);
-                if (usuarioAtual != null) {
-                    processarDescarte(residuoDescartado);
-                    cardLayout.show(mainPanel, "Espera");
-                } else {
-                    System.out.println("Simulando descarte físico para 'Somente Descartar'. Tipo: " + residuoDescartado.getTipo());
-                    cardLayout.show(mainPanel, "Espera");
+                try {
+                    Residuo residuoDescartado = residuoService.obterResiduoPorTipo("Grande");
+
+                    if (usuarioAtual != null) {
+                        processarDescarte(residuoDescartado); // Passa o Resíduo obtido do BD
+                        cardLayout.show(mainPanel, "Espera");
+                    } else {
+                        System.out.println("Simulando descarte físico para 'Somente Descartar'. Tipo: " + residuoDescartado.getTipo());
+                        cardLayout.show(mainPanel, "Espera");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(TelaPrincipal.this,
+                            "Erro ao obter dados do resíduo: " + ex.getMessage(),
+                            "Erro de Configuração",
+                            JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -592,18 +620,24 @@ public class TelaPrincipal extends JFrame {
 
     private void processarDescarte(Residuo residuo) {
         if (usuarioAtual == null) {
-            JOptionPane.showMessageDialog(this, "Nenhum usuário logado para processar o descarte. Por favor, faça login.", "Erro", JOptionPane.ERROR_MESSAGE);
-            // Opcional: redirecionar para a tela de login ou principal
-            // cardLayout.show(mainPanel, "Login");
+            JOptionPane.showMessageDialog(this, "Para registrar o descarte e pontuar, por favor, realize o login.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
-            usuarioService.adicionarPontos(usuarioAtual, residuo);
-            // Opcional: pode mostrar uma mensagem de sucesso ou apenas seguir o fluxo
-            // JOptionPane.showMessageDialog(this, "Pontos adicionados com sucesso!");
+            // 1. Registrar o descarte primeiro
+            descarteService.registrarDescarte(usuarioAtual, residuo);
+
+            // 2. Depois, adicionar os pontos ao usuário
+            usuarioService.adicionarPontos(usuarioAtual, residuo); // Este método já atualiza o usuário no DAO
+
+            // Mensagem de sucesso ou UI update pode vir aqui se desejado
+            System.out.println("Descarte processado e pontos adicionados para: " + usuarioAtual.getCpf());
         } catch (SQLException ex) { // Alterado aqui
             JOptionPane.showMessageDialog(this, "Erro de banco de dados ao processar o descarte: " + ex.getMessage(), "Erro de Banco de Dados", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace(); // Útil para debugging
+        } catch (Exception ex) { // Captura mais genérica para outros possíveis erros
+            JOptionPane.showMessageDialog(this, "Erro inesperado ao processar o descarte: " + ex.getMessage(), "Erro Inesperado", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
     }
 
