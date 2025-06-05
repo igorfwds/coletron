@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import com.fazecast.jSerialComm.SerialPort;
 
 public class TelaPrincipal extends JFrame {
     private UsuarioService usuarioService = new UsuarioService();
@@ -17,7 +16,6 @@ public class TelaPrincipal extends JFrame {
     private JPanel mainPanel = new JPanel(cardLayout);
     private Usuario usuarioAtual;
     private int pontosIniciais;
-    private SerialPort serialPort;
 
     public TelaPrincipal() {
         setTitle("COLETRON");
@@ -30,7 +28,33 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/tela-principal.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/tela-principal.jpg"); // Nota a barra inicial
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/tela-principal.jpg");
+                        // Opcionalmente, pinte um fundo de cor sólida para indicar o erro
+                        g.setColor(Color.RED);
+                        g.fillRect(0, 0, getWidth(), getHeight());
+                        return; // Não tenta desenhar a imagem se ela não foi carregada
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Opcionalmente, pinte um fundo de cor sólida para indicar o erro
+                    g.setColor(Color.ORANGE);
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                    return; // Não tenta desenhar a imagem se ela não foi carregada
+                }
+
+                if (icon != null && icon.getImage() != null) { // Verifique se o ícone e a imagem foram carregados
+                    g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
+                } else if (icon != null) { // Se o ícone foi criado mas a imagem não (caso raro com ImageIcon(URL))
+                    System.err.println("ImageIcon foi criado, mas a imagem interna é nula para: /images/tela-principal.jpg");
+                    g.setColor(Color.BLUE); // Cor para indicar este estado específico
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -92,7 +116,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/cadastro.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/cadastro.jpg"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/cadastro.jpg");
+                        // Opcional: você pode querer lançar uma exceção aqui ou definir um ícone padrão
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/cadastro.jpg");
+                    e.printStackTrace();
+                    // Opcional: tratar a exceção ou definir um ícone padrão
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -181,7 +218,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/login.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/login.jpg"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/login.jpg");
+                        // Opcional: Lançar exceção ou definir um ícone padrão.
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/login.jpg");
+                    e.printStackTrace();
+                    // Opcional: Tratar a exceção ou definir um ícone padrão.
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -235,7 +285,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/sem-pontuar.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/sem-pontuar.jpg"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/sem-pontuar.jpg");
+                        // Opcional: Lançar exceção ou definir um ícone padrão.
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/sem-pontuar.jpg");
+                    e.printStackTrace();
+                    // Opcional: Tratar a exceção ou definir um ícone padrão.
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -276,7 +339,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/selecao-descarte.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/selecao-descarte.jpg"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/selecao-descarte.jpg");
+                        // Opcional: Lançar exceção ou definir um ícone padrão.
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/selecao-descarte.jpg");
+                    e.printStackTrace();
+                    // Opcional: Tratar a exceção ou definir um ícone padrão.
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -297,7 +373,6 @@ public class TelaPrincipal extends JFrame {
         btnPequeno.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 processarDescarte(new Residuo("Pequeno", 10));
-                enviarComandoParaArduino("A"); // Envia comando para abrir a porta
                 cardLayout.show(mainPanel, "Espera");
             }
         });
@@ -309,7 +384,6 @@ public class TelaPrincipal extends JFrame {
         btnMedio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 processarDescarte(new Residuo("Médio", 30));
-                enviarComandoParaArduino("A"); // Envia comando para abrir a porta
                 cardLayout.show(mainPanel, "Espera");
             }
         });
@@ -321,7 +395,6 @@ public class TelaPrincipal extends JFrame {
         btnGrande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 processarDescarte(new Residuo("Grande", 50));
-                enviarComandoParaArduino("A"); // Envia comando para abrir a porta
                 cardLayout.show(mainPanel, "Espera");
             }
         });
@@ -335,7 +408,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/tela-espera.png");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/tela-espera.png"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/tela-espera.png");
+                        // Opcional: Lançar exceção ou definir um ícone padrão.
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/tela-espera.png");
+                    e.printStackTrace();
+                    // Opcional: Tratar a exceção ou definir um ícone padrão.
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -345,7 +431,6 @@ public class TelaPrincipal extends JFrame {
         btnProximo.setBounds(310, 430, 200, 50);
         btnProximo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                enviarComandoParaArduino("B"); // Envia comando para fechar a porta
                 cardLayout.show(mainPanel, "Pergunta"); // Substitua "Pergunta" pelo nome da tela que você deseja mostrar
                 mainPanel.add(createPontosRecebidosPanel(), "Pontos");
             }
@@ -360,7 +445,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/tela-pergunta.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/tela-pergunta.jpg"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/tela-pergunta.jpg");
+                        // Opcional: Lançar exceção ou definir um ícone padrão.
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/tela-pergunta.jpg");
+                    e.printStackTrace();
+                    // Opcional: Tratar a exceção ou definir um ícone padrão.
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -392,7 +490,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/pontos-recebidos.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/pontos-recebidos.jpg"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/pontos-recebidos.jpg");
+                        // Opcional: Lançar exceção ou definir um ícone padrão.
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/pontos-recebidos.jpg");
+                    e.printStackTrace();
+                    // Opcional: Tratar a exceção ou definir um ícone padrão.
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -431,7 +542,20 @@ public class TelaPrincipal extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("src/images/acesso.jpg");
+                ImageIcon icon = null;
+                try {
+                    java.net.URL imgUrl = getClass().getResource("/images/acesso.jpg"); // Caminho a partir da raiz do classpath
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/acesso.jpg");
+                        // Opcional: Lançar exceção ou definir um ícone padrão.
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/acesso.jpg");
+                    e.printStackTrace();
+                    // Opcional: Tratar a exceção ou definir um ícone padrão.
+                }
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -480,24 +604,12 @@ public class TelaPrincipal extends JFrame {
             }
         });
     }
-    
-    private void iniciarComunicacaoSerial() {
-        serialPort = SerialPort.getCommPort("COM4"); // Altere para a porta correta do seu Arduino
-        serialPort.setBaudRate(9600);
+    private boolean isSimulando = false;
 
-        if (serialPort.openPort()) {
-            System.out.println("Porta aberta com sucesso.");
-        } else {
-            System.out.println("Falha ao abrir a porta.");
-        }
-    }
-    
-    private void enviarComandoParaArduino(String comando) {
-        if (serialPort != null && serialPort.isOpen()) {
-            byte[] buffer = comando.getBytes();
-            serialPort.writeBytes(buffer, buffer.length);
-        } else {
-            System.out.println("Porta serial não está aberta.");
-        }
+    private void iniciarComunicacaoSerial() {
+        // Simulação de conexão sem Arduino
+        System.out.println("Simulando abertura da porta serial (sem Arduino).");
+        // Pode usar um booleano para marcar que é simulação
+        isSimulando = true;
     }
 }
