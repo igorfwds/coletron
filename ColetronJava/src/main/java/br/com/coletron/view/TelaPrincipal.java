@@ -92,7 +92,7 @@ public class TelaPrincipal extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 usuarioAtual = null;
                 pontosIniciais = 0;
-                cardLayout.show(mainPanel, "Selecao");
+                cardLayout.show(mainPanel, "Descartar");
             }
         });
 
@@ -117,6 +117,7 @@ public class TelaPrincipal extends JFrame {
         mainPanel.add(createEsperaPanel(), "Espera");
         mainPanel.add(createPerguntaPanel(), "Pergunta");
         mainPanel.add(createAcessoPanel(), "Acesso");
+        mainPanel.add(createFimAvulsoPanel(), "FimAvulso");
 
         add(mainPanel);
         
@@ -147,7 +148,7 @@ public class TelaPrincipal extends JFrame {
         };
         panel.setLayout(null);
 
-        JButton btnVoltar = createImageButton("src/images/voltar.jpg");
+        JButton btnVoltar = createImageButton("/images/voltar.png");
         btnVoltar.setBounds(40, 30, 50, 40);
         btnVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -237,7 +238,7 @@ public class TelaPrincipal extends JFrame {
         };
         panel.setLayout(null);
 
-        JButton btnVoltar = createImageButton("src/images/voltar.jpg");
+        JButton btnVoltar = createImageButton("/images/voltar.png");
         btnVoltar.setBounds(40, 30, 50, 40);
         btnVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -283,35 +284,37 @@ public class TelaPrincipal extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 ImageIcon icon = null;
+                // Carrega a NOVA imagem de fundo para esta tela
                 try {
-                    java.net.URL imgUrl = getClass().getResource("/images/sem-pontuar.jpg"); // Caminho a partir da raiz do classpath
+                    // ATENÇÃO: Use o nome do arquivo que você salvou para a nova imagem
+                    java.net.URL imgUrl = getClass().getResource("/images/sem-pontuar.jpg");
                     if (imgUrl != null) {
                         icon = new ImageIcon(imgUrl);
                     } else {
+                        // Mensagem de erro se a nova imagem de fundo não for encontrada
                         System.err.println("Não foi possível encontrar a imagem: /images/sem-pontuar.jpg");
-                        // Opcional: Lançar exceção ou definir um ícone padrão.
                     }
                 } catch (Exception e) {
                     System.err.println("Erro ao carregar a imagem: /images/sem-pontuar.jpg");
                     e.printStackTrace();
-                    // Opcional: Tratar a exceção ou definir um ícone padrão.
                 }
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
+
+                if (icon != null) {
+                    g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
+                }
             }
         };
         panel.setLayout(null);
-        
-        JButton btnVoltar = createImageButton("src/images/voltar.jpg");
-        btnVoltar.setBounds(40, 30, 50, 40);
-        btnVoltar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Principal");
-            }
-        });
+
+        JButton btnVoltar = createImageButton("/images/voltar.png"); // Nome do arquivo atualizado
+        btnVoltar.setBounds(20, 20, 50, 40); // Posicionado no canto superior esquerdo
+        btnVoltar.addActionListener(e -> cardLayout.show(mainPanel, "Principal"));
         panel.add(btnVoltar);
 
+
         JButton btnCadastrar = createRoundedButton("Cadastrar");
-        btnCadastrar.setBounds(400, 300, 200, 50);
+
+        btnCadastrar.setBounds(410, 270, 200, 50);
         btnCadastrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(mainPanel, "Cadastro");
@@ -319,14 +322,22 @@ public class TelaPrincipal extends JFrame {
         });
         panel.add(btnCadastrar);
 
-        JButton btnNao = createRoundedButton("Tudo bem!");
-        btnNao.setBounds(400, 370, 200, 50);
-        btnNao.addActionListener(new ActionListener() {
+        // 3. Botão "Continuar" (estilo contorno)
+        JButton btnContinuar = createRoundedButton("Continuar");
+        btnContinuar.setBounds(410,335, 200, 50); // Posição abaixo do de cadastrar
+
+        // Aplicando estilo de contorno para o botão "Continuar"
+        btnContinuar.setBackground(Color.WHITE); // Fundo branco
+        btnContinuar.setForeground(Color.decode("#0189AF")); // Texto azul (cor da borda do outro botão)
+        // A borda já é definida em createRoundedButton, se precisar de mais espessura, pode ajustar aqui:
+        // btnContinuar.setBorder(BorderFactory.createLineBorder(Color.decode("#0189AF"), 2));
+
+        btnContinuar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(mainPanel, "Selecao");
             }
         });
-        panel.add(btnNao);
+        panel.add(btnContinuar);
 
         return panel;
     }
@@ -355,7 +366,7 @@ public class TelaPrincipal extends JFrame {
         };
         panel.setLayout(null);
 
-        JButton btnVoltar = createImageButton("src/images/voltar.jpg");
+        JButton btnVoltar = createImageButton("/images/voltar.png");
         btnVoltar.setBounds(40, 30, 50, 40);
         btnVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -444,7 +455,7 @@ public class TelaPrincipal extends JFrame {
 
         return panel;
     }
-    
+
     private JPanel createEsperaPanel() {
         JPanel panel = new JPanel() {
             @Override
@@ -452,19 +463,20 @@ public class TelaPrincipal extends JFrame {
                 super.paintComponent(g);
                 ImageIcon icon = null;
                 try {
-                    java.net.URL imgUrl = getClass().getResource("/images/tela-espera.jpg"); // Caminho a partir da raiz do classpath
+                    java.net.URL imgUrl = getClass().getResource("/images/tela-espera.jpg");
                     if (imgUrl != null) {
                         icon = new ImageIcon(imgUrl);
                     } else {
                         System.err.println("Não foi possível encontrar a imagem: /images/tela-espera.jpg");
-                        // Opcional: Lançar exceção ou definir um ícone padrão.
                     }
                 } catch (Exception e) {
                     System.err.println("Erro ao carregar a imagem: /images/tela-espera.jpg");
                     e.printStackTrace();
-                    // Opcional: Tratar a exceção ou definir um ícone padrão.
                 }
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
+
+                if (icon != null) {
+                    g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
+                }
             }
         };
         panel.setLayout(null);
@@ -474,15 +486,13 @@ public class TelaPrincipal extends JFrame {
         btnProximo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (usuarioAtual != null) {
+                    // Se o usuário estiver LOGADO, vai para a tela de pontos.
                     JPanel pontosPanel = createPontosRecebidosPanel();
-                    mainPanel.add(pontosPanel, "Pontos"); // Adiciona/substitui o painel "Pontos"
+                    mainPanel.add(pontosPanel, "Pontos");
                     cardLayout.show(mainPanel, "Pontos");
                 } else {
-                    JOptionPane.showMessageDialog(TelaPrincipal.this,
-                            "Obrigado por descartar seu resíduo eletrônico!",
-                            "Descarte Concluído",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    cardLayout.show(mainPanel, "Principal");
+                    // Se o usuário NÃO estiver logado, vai para a nova tela "FimAvulso".
+                    cardLayout.show(mainPanel, "FimAvulso");
                 }
             }
         });
@@ -618,6 +628,45 @@ public class TelaPrincipal extends JFrame {
         return panel;
     }
 
+    private JPanel createFimAvulsoPanel() {
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon icon = null;
+                try {
+                    // Carrega a nova imagem de fundo 'fim-avulso.jpg'
+                    java.net.URL imgUrl = getClass().getResource("/images/fim-avulso.jpg");
+                    if (imgUrl != null) {
+                        icon = new ImageIcon(imgUrl);
+                    } else {
+                        System.err.println("Não foi possível encontrar a imagem: /images/fim-avulso.jpg");
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem: /images/fim-avulso.jpg");
+                    e.printStackTrace();
+                }
+
+                if (icon != null) {
+                    g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        panel.setLayout(null);
+
+        // Adiciona um botão para finalizar e voltar à tela principal
+        JButton btnFinalizar = createRoundedButton("Finalizar");
+        btnFinalizar.setBounds(300, 450, 200, 50); // Posição centralizada, ajuste se necessário
+        btnFinalizar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Principal");
+            }
+        });
+        panel.add(btnFinalizar);
+
+        return panel;
+    }
+
     private void processarDescarte(Residuo residuo) {
         if (usuarioAtual == null) {
             JOptionPane.showMessageDialog(this, "Para registrar o descarte e pontuar, por favor, realize o login.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -658,13 +707,34 @@ public class TelaPrincipal extends JFrame {
         }
     
         return button;
-    }    
+    }
 
-    private JButton createImageButton(String imagePath) {
-        JButton button = new JButton(new ImageIcon(imagePath));
+    private JButton createImageButton(String classpathResourcePath) {
+        ImageIcon icon = null;
+        try {
+            java.net.URL imgUrl = getClass().getResource(classpathResourcePath);
+
+            if (imgUrl != null) {
+                icon = new ImageIcon(imgUrl);
+            } else {
+                System.err.println("Não foi possível encontrar a imagem do botão: " + classpathResourcePath);
+                // Se a imagem não for encontrada, cria um botão com texto como alternativa.
+                JButton fallbackButton = new JButton("<-"); // Botão de texto como fallback
+                fallbackButton.setFont(new Font("Arial", Font.BOLD, 18));
+                return fallbackButton;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JButton fallbackButton = new JButton("<-");
+            return fallbackButton;
+        }
+
+        JButton button = new JButton(icon);
         button.setContentAreaFilled(false);
-        button.setBorder(BorderFactory.createLineBorder(Color.decode("#0189AF"))); // cor da borda, se desejar
-        button.setForeground(Color.decode("#FFFFFF")); // cor da fonte, se tiver texto
+        button.setBorderPainted(false); // Remove a pintura da borda padrão
+        button.setBorder(null); // Remove a borda completamente
+        button.setFocusPainted(false); // Remove a pintura de foco
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Muda o cursor para uma mão
         return button;
     }
 
